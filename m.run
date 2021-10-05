@@ -1,0 +1,38 @@
+reset;
+model m_4.mod;
+data m.dat;
+#option solution_round 3;
+option display_round 2;
+#option solver CPLEX;
+option solver gurobi;
+#option gurobi_options 'nonconvex=2';
+
+solve;
+display _nvars;
+display _ncons;
+display _total_solve_time;
+display Pcgk, Pcgn, Pcgs;
+display Bck, Bcn, Bcs;
+display sum{g in renewables, k in factory}sita[g]*a[g]*Pcgk[k, g]
+         
+         +sum{j in 1..J, t in 1..T, g in renewables, k in factory}taog[g]*(B[g]-C[g])*Pcgk[k, g]*竹k[j, t, k, g]
+         
+         +(sum{k in factory}Bck[k])*耳es*des
+         
+         +sum{t in 1..T, j in 1..J, k in factory}(老b*Ebk[k, j, t] - 老s*Esk[k, j, t])
+         
+         +sum{g in renewables, n in warehouse}sita[g]*a[g]*Pcgn[n, g]
+         
+         +sum{j in 1..J, t in 1..T, g in renewables, n in warehouse}taog[g]*(B[g]-C[g])*Pcgn[n, g]*竹n[j, t, n, g]
+         
+         +(sum{n in warehouse}Bcn[n])*耳es*des
+         
+         +sum{t in 1..T, j in 1..J, n in warehouse}(老b*Ebn[n, j, t] - 老s*Esn[n, j, t])
+         
+         +sum{g in renewables, s in store}sita[g]*a[g]*Pcgs[s, g]
+         
+         +sum{j in 1..J, t in 1..T, g in renewables, s in store}taog[g]*(B[g]-C[g])*Pcgs[s, g]*竹s[j, t, s, g]
+         
+         +(sum{s in store}Bcs[s])*耳es*des
+         
+         +sum{t in 1..T, j in 1..J, s in store}(老b*Ebs[s, j, t] - 老s*Ess[s, j, t]);
